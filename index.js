@@ -78,7 +78,7 @@ app.put('/task/:id', async (req, res) => {
 app.delete('/task/:id', async (req, res) => {
     const task = await db.get('Select * from tasks where id = ?', [Number(req.params.id)])
     if(!task){
-        res.status(404).json({ "error": `Task ${id} not found` })
+        res.status(404).json({ "error": `Task ${req.params.id} not found` })
 
     }else{
         await db.run('Delete from tasks where id =?', [Number(req.params.id)])
