@@ -3,13 +3,10 @@ const cors = require('cors');
 const sqlite3 = require('sqlite3');
 const { open } = require('sqlite');
 const app = express();
+app.use(express.json())
 const port = 3000;
 
 var db;
-
-
-
-
 
 async function initDb() {
   const db = await open({
@@ -48,6 +45,17 @@ app.get('/task/:id', async (req, res) => {
         res.status(200).send(task)
     }else{
         res.status(404).json({ "error": `Task ${req.params.id} not found` })
+    }
+})
+
+app.post('/tasks', async (req, res) => {
+    const {title, done} = req.body
+    if(title === ""){
+        res.status(400).send({})
+
+    }else{
+        const stmnt = await db.run('Insert into tasks (title, done) values (?, ?)', [title, Number(done)])
+        res.status(201).send('Task Added')
     }
 })
 
