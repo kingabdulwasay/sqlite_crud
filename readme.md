@@ -4,25 +4,6 @@ A simple REST API built with **Node.js**, **Express.js**, and **SQLite** for per
 
 ---
 
-## Features
-
-- Create a task
-- Get all tasks
-- Get a single task
-- Update a task
-- Delete a task
-- SQLite database (no separate database server required)
-
----
-
-## Tech Stack
-
-- Node.js
-- Express.js
-- SQLite
-- JavaScript
-
----
 
 # Why SQLite Was Chosen
 
@@ -50,7 +31,7 @@ The SQLite database is stored as a single file inside the project (root folder).
 ## 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/sqlite-crud.git
+git clone https://github.com/your-username/sqlite_crud.git
 ```
 
 
@@ -72,6 +53,16 @@ The server will start on:
 ```
 http://localhost:3000
 ```
+
+---
+
+# Database Viewer Screenshot
+
+
+## Database Viewer
+
+![Database Viewer](screenshots/db_viewer.png)
+
 
 ---
 
@@ -110,13 +101,5 @@ where id = ?;
 
 ---
 
-# Database Viewer Screenshot
 
-
-## Database Viewer
-
-![Database Viewer](screenshots/db_viewer.png)
-
-
----
 
