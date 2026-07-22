@@ -6,12 +6,8 @@ const app = express();
 const port = 3000;
 
 var db;
-const tasks = [
-    {id:1,name:"Task 1",done:true},
-    {id:2,name:"Task 2",done:true},
-    {id:3,name:"Task 3",done:false},
-]
-app.use('/docs',swaggerui.serve, swaggerui.setup(swaggerspecs))
+
+
 
 
 
@@ -37,13 +33,23 @@ async function initDb() {
     await stmnt.run('Task 3', 0)
     await stmnt.finalize()
   }
-  console.log((await db.all('Select * from tasks')).length)
-const tasks = await db.all('SELECT * FROM tasks');
 
-console.log(tasks);
   return db;
 }
 
+app.get('/tasks', async (req, res) => {
+    const tasks = await db.all(`Select * from tasks`);
+    res.status(200).send(tasks);
+});
+
+app.get('/task/:id', async (req, res) => {
+    const task = await db.get(`Select * from tasks where id = ${Number(req.params.id)}`)
+    if(task){
+        res.status(200).send(task)
+    }else{
+        res.status(404).json({ "error": `Task ${req.params.id} not found` })
+    }
+})
 
 
 async function start() {
