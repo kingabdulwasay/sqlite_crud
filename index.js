@@ -40,7 +40,7 @@ app.get('/tasks', async (req, res) => {
 });
 
 app.get('/task/:id', async (req, res) => {
-    const task = await db.get(`Select * from tasks where id = ${Number(req.params.id)}`)
+    const task = await db.get('Select * from tasks where id = ?', [Number(req.params.id)])
     if(task){
         res.status(200).send(task)
     }else{
@@ -58,6 +58,34 @@ app.post('/tasks', async (req, res) => {
         res.status(201).send('Task Added')
     }
 })
+
+app.put('/task/:id', async (req, res) => {
+    const {title, done} = req.body
+    const task = await db.get('Select * from tasks where id = ?', [Number(req.params.id)])
+    if(title === ""){
+        res.status(400).send({})
+
+    }else if(!task){
+        res.status(404).json({ "error": `Task ${req.params.id} not found`})
+
+    }else{
+         await db.run('Update tasks set title = ?, done = ? where id = ?',
+             [title, done, Number(req.params.id)])
+        res.status(201).send("Task updated")
+    }
+})
+
+app.delete('/task/:id', async (req, res) => {
+    const task = await db.get('Select * from tasks where id = ?', [Number(req.params.id)])
+    if(!task){
+        res.status(404).json({ "error": `Task ${id} not found` })
+
+    }else{
+        await db.run('Delete from tasks where id =?', [Number(req.params.id)])
+        res.status(204).send()
+    }
+})
+
 
 
 async function start() {
